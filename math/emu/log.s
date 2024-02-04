@@ -1,0 +1,106 @@
+	.file	"g:/gnu/tmp/log.i"
+gcc_compiled.:
+.text
+	.align 4
+.globl _log
+_log:
+	pushl %ebp
+	movl %esp,%ebp
+	subl $20,%esp
+	pushl %esi
+	pushl %ebx
+	movl 8(%ebp),%ebx
+	movl 12(%ebp),%esi
+	pushl $0
+	pushl $0
+	pushl %esi
+	pushl %ebx
+	call ___cmpdf2
+	addl $16,%esp
+	testl %eax,%eax
+	jg L2
+	movl $-698824498,%eax
+	movl $-1769165,%edx
+	jmp L1
+	.align 2
+L2:
+	leal -4(%ebp),%eax
+	pushl %eax
+	pushl %esi
+	pushl %ebx
+	call _frexp
+	movl %eax,-20(%ebp)
+	movl %edx,-16(%ebp)
+	pushl $0
+	popl -12(%ebp)
+	pushl $0
+	popl -8(%ebp)
+	xorl %ebx,%ebx
+	addl $12,%esp
+L7:
+	movl $-1,%esi
+	subl %ebx,%esi
+	pushl %esi
+	pushl -16(%ebp)
+	pushl -20(%ebp)
+	call _ldexp
+	pushl %edx
+	pushl %eax
+	pushl -16(%ebp)
+	pushl -20(%ebp)
+	call ___adddf3
+	addl $16,%esp
+	addl $12,%esp
+	pushl $1072693248
+	pushl $0
+	pushl %edx
+	pushl %eax
+	call ___cmpdf2
+	addl $16,%esp
+	testl %eax,%eax
+	jge L5
+	pushl %esi
+	pushl -16(%ebp)
+	pushl -20(%ebp)
+	call _ldexp
+	pushl %edx
+	pushl %eax
+	pushl -16(%ebp)
+	pushl -20(%ebp)
+	call ___adddf3
+	addl $16,%esp
+	movl %eax,-20(%ebp)
+	movl %edx,-16(%ebp)
+	pushl ___logtbl+4(,%ebx,8)
+	pushl ___logtbl(,%ebx,8)
+	pushl -8(%ebp)
+	pushl -12(%ebp)
+	call ___subdf3
+	addl $16,%esp
+	movl %eax,-12(%ebp)
+	movl %edx,-8(%ebp)
+	addl $12,%esp
+L5:
+	incl %ebx
+	cmpl $51,%ebx
+	jbe L7
+	pushl -4(%ebp)
+	call ___floatsidf
+	addl $4,%esp
+	pushl _LOG_2_OF_E+4
+	pushl _LOG_2_OF_E
+	pushl %edx
+	pushl %eax
+	call ___muldf3
+	addl $16,%esp
+	pushl -8(%ebp)
+	pushl -12(%ebp)
+	pushl %edx
+	pushl %eax
+	call ___adddf3
+L1:
+	leal -28(%ebp),%esp
+	popl %ebx
+	popl %esi
+	leave
+	ret

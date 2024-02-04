@@ -1,0 +1,6 @@
+OBJEXT = 
+   anddi3.o adddi3.o    ashldi3.o  \
+   ashrdi3.o    bdiv.o    builtin.o    builtind.o    builtinv.o \
+   cmpdi2.o    divdi3.o   iordi3.o   lshldi3.o   lshrdi3.o \
+  mjd.o   moddi3.o   muldi3.o   negdi2.o   onecmpld.o \
+  subdi3.o   ucmpdi2.o   udivdi3.o   umoddi3.o   xordi3.o 

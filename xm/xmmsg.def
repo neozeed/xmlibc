@@ -1,0 +1,32 @@
+	.386
+;
+_DATA		segment	para public USE16 'DATA'
+;
+		extrn	FileName:byte, XNameS:byte, ErrorS:byte
+		extrn	Int0S:byte, Int2S:byte, Int4S:byte, Int5S:byte
+		extrn	Int6S:byte, Int7S:byte, Int8S:byte, Int9S:byte
+		extrn	Int10S:byte, Int11S:byte, Int12S:byte, Int13S:byte
+		extrn	Int14S:byte, Int15S:byte, Int16S:byte, Int117S:byte
+
+		extrn	RegS:byte, CRLFS:byte, EraseS:byte, SpaceS:byte
+		extrn	ColonS:byte, Asterisk, UsageS:byte
+		extrn	NFS:byte, SanityS:byte, StackS:byte, IllegalS:byte
+		extrn	FuncNotAvail:byte, ExitMsg:byte, TraceMsg:byte
+		extrn	msg_stack:byte, code_modifyed:byte, MemValidQ:byte
+IF	Testing
+		extrn	HelloS:byte, GDTBaseS:byte, IDTBaseS:byte
+		extrn	LDTBaseS:byte, ExeCodeS:byte, ExeDataS:byte
+		extrn	ExeEntry:byte, ExeLimitS:byte, ThisCodeS:byte
+		extrn	ThisDataS:byte, ProtectedS:byte
+ENDIF
+	ends
+;
+_TEXT		segment	para public USE16 'CODE'
+		extrn	Msg:near, PutSpace:near, PutChar:near
+		extrn	GetChar:near
+		extrn	CRLF:near, Msg2ch:near, put2char:near
+		extrn	Hex32s:near, Hex:near, Hex32:near
+		extrn	Hexs:near, HexALS:near
+
+		ends
+		

@@ -1,0 +1,57 @@
+# Make GCC and related programs
+
+RUN386	= run386
+
+GCCDIR	= /gnu/bin
+GASDIR	= /gnu/bin
+BINDIR	= /gnu/bin
+
+CPP	= $(RUN386) $(GCCDIR)/cpp
+CC1	= $(RUN386) $(GCCDIR)/cc1
+AS	= $(RUN386) $(GASDIR)/gas
+AR	= $(RUN386) $(BINDIR)/ar
+LD	= $(RUN386) $(BINDIR)/ld
+NM	= $(RUN386) $(BINDIR)/nm
+SIZE	= $(RUN386) $(BINDIR)/size
+
+GENEXP	= /gnu/bin/genexp
+
+RANLIB	= $(AR) s
+
+CC	= gcc
+
+CPPFLAGS= -D__GNUC__ -DTOWNS -I/gnu/usr/include
+#CC1FLAGS= -quiet -Wall -msoft-float	# Omitte Optimization for debug
+#CC1FLAGS= -quiet -O 			#  with FPU
+CC1FLAGS= -quiet -O -msoft-float	# Usually, without FPU 
+
+ASFLAGS =
+LDFLAGS = -N -L/gnu/usr/lib
+
+#CLIB	= -lc				# with FPU
+CLIB	= -lce				# without FPU
+CRT0	= /gnu/usr/lib/crt0.o
+
+TMP	= /gnu/tmp
+
+%.o: %.c
+	$(CPP) $(CPPFLAGS) $*.c $(TMP)/$*.i
+	$(CC1) $(CC1FLAGS) $(TMP)/$*.i -o $(TMP)/$*.s
+	$(AS)  $(ASFLAGS)  $(TMP)/$*.s -o $*.o
+	rm $(TMP)/$*.i $(TMP)/$*.s
+
+%.o: %.i
+	$(CC1) $(CC1FLAGS) $(TMP)/$*.i -o $(TMP)/$*.s
+	$(AS)  $(ASFLAGS)  $(TMP)/$*.s -o $*.o
+	rm $(TMP)/$*.i $(TMP)/$*.s
+
+%.s: %.c
+	$(CPP) $(CPPFLAGS) $*.c $(TMP)/$*.i
+	$(CC1) $(CC1FLAGS) $(TMP)/$*.i -o $*.s
+	rm $(TMP)/$*.i
+
+%.o: %.s
+	$(AS)  $(ASFLAGS)  $*.s -o $*.o
+
+%.exp: %
+	$(GENEXP) $* $*.exp

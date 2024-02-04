@@ -1,0 +1,72 @@
+		%NOMACS
+
+prefix32	macro
+		db	67h
+		endm
+fjmp		macro	segm, offs
+		db	0eah		;; far jump opcode
+		dw	offs		;; where to jump
+		dw	segm
+; here should be enough nop for 80486
+; or pre-fetch queue is not cleared correctly
+		endm
+outb		macro	p, v
+		mov	al, v
+		out	p, al
+		endm
+
+outbd		macro	p, v
+		local	l1, l2
+		jmp	SHORT l1
+l1:		jmp	SHORT l2
+l2:		outb	p, v
+		endm
+
+Desc		struc
+Limit_0_15	dw	0
+Base_0_15	dw	0
+Base_16_23	db	0
+AccessRights	db	0
+Granularity	db	0
+Base_24_31	db	0
+Desc		ends
+sect		struc
+Base		dd	?
+Lo		dd	?
+Hi		dd	?
+;Loaded		db	?
+sect		ends
+
+dflag	record	Deb_Trace_Reg:1,Deb_Trap_Dos:1,Deb_Trace_DOS:1,Sys_Out_COM:1
+		
+dos_stack	struc
+sp_gs		dw	?
+sp_fs		dw	?
+sp_es		dw	?
+sp_ds		dw	?
+sp_eip		dd	?
+sp_cs		dw	?
+sp_cs_h		dw	?
+sp_flag		dd	?
+		ends
+
+p_stack		struc
+redi		dd	?
+resi		dd	?
+rebp		dd	?
+resp		dd	?
+rebx		dd	?
+redx		dd	?
+recx		dd	?
+reax		dd	?
+		ends
+p_stackw   	struc
+rdi		dw	?,?
+rsi		dw	?,?
+rbp		dw	?,?
+rsp		dw	?,?
+rbx		dw	?,?
+rdx		dw	?,?
+rcx		dw	?,?
+rax		dw	?,?
+		ends

@@ -1,0 +1,91 @@
+GCC ver 1.36 and related utilities for IBM-PC/AT 386
+							Oct 9, 1990
+							Yoshiaki Uchida
+
+How to install
+
+	to install drive c: , run
+	
+	inst c >install.bat 
+	
+	then execute install.bat
+	
+	Please check the content of 'install.bat' created by inst.exe.
+	
+
+Update
+	Floating point subroutines are much better. 
+	Bug fix in file - related functions like lseek().
+	many other functions.
+	Here is our own version of 'run386' (with source code - yes). 
+	Distributing binary copies is free.
+
+Bugs
+	In some case, 
+		" run386  bin/ar dv xxx.a  yyy.o "
+	cause segment error.
+	
+	If you meet this bug, please use following procedure to avoid it.
+	
+	1. make or go to working directory.
+	2. extract all objects in the library.
+	3. delete what you want to delete.
+	4. create new library for all rest object.
+	
+	to do this, see the makefile in /gnu/libc. 
+	It is used to make lib.a, but works only if you create 'object.def'.
+	For example, 
+		ls *.o | sed "s/$/  \/" | sed "s/^/     /" >object.def
+	will of much help to you.
+
+	Occationary "run386 xxx" does not run if invoked by gmake or gcc.exe.
+	In this case, please create batch file using -n option of gcc.exe or
+	gmake.exe.
+
+Usage of gcc.exe
+	
+	gcc -?  
+		shows brief comment.
+	gcc -n  
+		shows commands what gcc.exe generated but do not execute them.
+		It is useful to create  .bat file.
+		
+	Options are read from file 'gnucc.cfg' then read from command line.
+	
+	exmample
+	
+	gcc -c *.c -O
+		compile all *.c files in current directry
+		create object (.o) files (-O option).
+		optimize (-O)
+		
+	gcc -S foo.c -msoft-float
+		compile 'foo.c' but do not assemble it. Result is 'foo.s'.
+		object code run without FPU (-msoft-float)
+	
+	gcc -ohello  hello.c work.o -msoft-float 
+		Compile hello.c, then link with work.o, to produce hello.exp.
+		This hello.exp is called from run386.exe (or xm.exe) as
+			run386  hello[.exp]
+
+
+Usage of xm.exe (run386.exe)
+	
+	is just like run386.exe of Phar Lap. But there is no options.
+	
+		run386 /bin/foo
+	
+	will serch /bin/foo first, if not found, then /bin/foo.exp
+
+
+How to re-compile xm.exe
+
+	First unarc xm.lzh or xm.zip
+	then using TMAKE, TASM and TLINK of Borland, type
+	
+		make xm.exe
+	
+	which will create xm.exe.
+	
+	Rename as run386.exe if you like compatible name with Phar Lap.
+

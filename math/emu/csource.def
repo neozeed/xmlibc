@@ -1,0 +1,13 @@
+CSOURCE= \
+   builtin_.c \
+   cmpdf2.c \
+   cmpsf2.c \
+   dbuiltin.c \
+   explog.c \
+   fabs.c \
+   ferror.c \
+   floor.c \
+   fmod.c \
+   sincos.c \
+   varargs.c \
+   vbuiltin.c 
